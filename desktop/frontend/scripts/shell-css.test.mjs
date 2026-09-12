@@ -46,6 +46,12 @@ test("electron keeps chrome no-drag but does not punch the titlebar with transcr
   assert.doesNotMatch(out, /\.workbench-dock__tools\{[^}]*-webkit-app-region/);
 });
 
+test("chrome selector does not match unrelated topicbar or topbar class names", () => {
+  const css = ".topicbarfoo{--reasonix-draggable:no-drag}.topbar2{--reasonix-draggable:no-drag}";
+  const out = rewriteDragRegions(css, "electron");
+  assert.equal(out, css);
+});
+
 test("electron stylesheet rewrite leaves transcript boxes out of app-region", () => {
   const out = rewriteDragRegions(readFileSync(stylesPath, "utf8"), "electron");
   assert.match(out, /\.topicbar\s*\{[^}]*-webkit-app-region:\s*drag/);
