@@ -24,6 +24,8 @@ test("electron keeps chrome no-drag but does not punch the titlebar with transcr
   const css = [
     ".topicbar{--reasonix-draggable:drag}",
     ".topicbar button{--reasonix-draggable:no-drag}",
+    ".topicbar__title-edit{--reasonix-draggable:no-drag}",
+    ".topicbar__title-input{--reasonix-draggable:no-drag}",
     ".msg{--reasonix-draggable:no-drag}",
     ".reasoning__head{-webkit-app-region:no-drag}",
     ".tool__head{-webkit-app-region:no-drag}",
@@ -34,6 +36,8 @@ test("electron keeps chrome no-drag but does not punch the titlebar with transcr
   const out = rewriteDragRegions(css, "electron");
   assert.match(out, /\.topicbar\{-webkit-app-region:\s*drag\}/);
   assert.match(out, /\.topicbar button\{-webkit-app-region:\s*no-drag\}/);
+  assert.match(out, /\.topicbar__title-edit\{-webkit-app-region:\s*no-drag\}/);
+  assert.match(out, /\.topicbar__title-input\{-webkit-app-region:\s*no-drag\}/);
   assert.match(out, /\.management-screen\{-webkit-app-region:\s*no-drag\}/);
   assert.match(out, /\.settings-modal-backdrop\{-webkit-app-region:\s*no-drag\}/);
   assert.doesNotMatch(out, /\.msg\{[^}]*-webkit-app-region/);
@@ -46,6 +50,8 @@ test("electron stylesheet rewrite leaves transcript boxes out of app-region", ()
   const out = rewriteDragRegions(readFileSync(stylesPath, "utf8"), "electron");
   assert.match(out, /\.topicbar\s*\{[^}]*-webkit-app-region:\s*drag/);
   assert.match(out, /\.topicbar button\s*\{[^}]*-webkit-app-region:\s*no-drag/);
+  assert.match(out, /\.topicbar__title-edit\s*\{[^}]*-webkit-app-region:\s*no-drag/);
+  assert.match(out, /\.topicbar__title-input\s*\{[^}]*-webkit-app-region:\s*no-drag/);
   assert.doesNotMatch(out, /\.msg\s*\{[^}]*-webkit-app-region/);
   assert.doesNotMatch(out, /\.reasoning__head\s*\{[^}]*-webkit-app-region/);
   assert.doesNotMatch(out, /\.tool__head\s*\{[^}]*-webkit-app-region/);
